@@ -51,7 +51,7 @@ async def main() -> None:
     try:
         await api.run()
     except KeyboardInterrupt:
-        print("Shutting down backend...")
+        print("Shutting down daqs-service...")
 
 
 if __name__ == "__main__":
