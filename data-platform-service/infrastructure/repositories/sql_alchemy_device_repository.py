@@ -1,7 +1,7 @@
 from typing import Optional
 
 from sqlalchemy.orm import Session
-from sqlalchemy import select, Sequence
+from sqlalchemy import select
 
 from domain.models.device import Device
 from domain.ports.device_repository import DeviceRepository

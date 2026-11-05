@@ -1,10 +1,10 @@
-
 from domain.models.measurement import Measurement
+from domain.services.measurement_service import MeasurementService
 from infrastructure.repositories.sql_alchemy_device_repository import DeviceRepository
 from infrastructure.repositories.sql_alchemy_measurement_repository import MeasurementRepository
 
 
-class MeasurementService:
+class SqlAlchemyMeasurementService(MeasurementService):
     def __init__(
             self,
             measurements: MeasurementRepository,
