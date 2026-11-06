@@ -1,5 +1,3 @@
-from http.client import HTTPException
-
 from fastapi import APIRouter, Depends
 
 from api.deps import get_measurement_service, get_hasher, get_device_service
@@ -35,13 +33,13 @@ def record_measurement(
 
     return {"ok": True}
 
-@router.get("/list-measurements")
+@router.get("/list-measurements", response_model=ListMeasurementsResponse)
 def list_measurements(
     payload: RecordMeasurementRequest,
-        measurement_service: MeasurementService = Depends(get_measurement_service),
-        device_service: DeviceService = Depends(get_device_service),
-        hasher: Hasher = Depends(get_hasher),
-):
+    measurement_service: MeasurementService = Depends(get_measurement_service),
+    device_service: DeviceService = Depends(get_device_service),
+    hasher: Hasher = Depends(get_hasher),
+) -> ListMeasurementsResponse:
     try:
         measurements, total = measurement_service.list_measurements(
             filters=payload.filters,
