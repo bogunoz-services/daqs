@@ -1,6 +1,6 @@
 import asyncio
 
-from experiment.service.experiment_service import ExperimentService
+from experiment.application.experiment_service import ExperimentService
 from facade.websocket.connections import ConnectionRegistry
 from facade.websocket.protocol import Event
 from facade.websocket.utils.handlers_actions import ExperimentActions

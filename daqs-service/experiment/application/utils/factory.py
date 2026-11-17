@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 import pyvisa
 
@@ -12,8 +13,9 @@ from experiment.config.config import (
     KALMAN_PROCESS_VARIANCE,
     KALMAN_MEASUREMENT_VARIANCE,
 )
-from experiment.core.orchestrator import Orchestrator
-from experiment.core.ports import MeasurementSink
+from experiment.application.orchestrator import Orchestrator
+from experiment.domain.models import MeasurementSink
+from experiment.infrastructure.persistence.http_measurement_sink import HttpMeasurementSink
 
 
 def build_orchestrator(sink: MeasurementSink) -> Orchestrator:
@@ -51,10 +53,14 @@ def build_orchestrator(sink: MeasurementSink) -> Orchestrator:
     )
     source.connect()
 
+    sink = HttpMeasurementSink(
+        base_url=os.environ["MEASUREMENT_SERVICE_URL"]
+    )
+
     return Orchestrator(
         source=source,
         device_hash=device_hash,
         process_variance=KALMAN_PROCESS_VARIANCE,
         measurement_variance=KALMAN_MEASUREMENT_VARIANCE,
-        sink=sink,
+        measurement_sink=sink,
     )

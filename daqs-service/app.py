@@ -8,8 +8,8 @@ import pyvisa
 from container import Services
 
 from experiment.config.store import JsonConfigStore
-from experiment.service.experiment_service import ExperimentService
-from experiment.utils.factory import build_orchestrator
+from experiment.application.experiment_service import ExperimentService
+from experiment.application.utils.factory import build_orchestrator
 from facade.api import build_websocket_api
 
 

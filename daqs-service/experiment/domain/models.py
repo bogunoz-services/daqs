@@ -1,4 +1,4 @@
-# experiment/core/ports.py  (rozszerzenie)
+# experiment/core/models.py  (rozszerzenie)
 
 from typing import Protocol
 from dataclasses import dataclass

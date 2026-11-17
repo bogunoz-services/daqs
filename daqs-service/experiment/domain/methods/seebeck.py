@@ -1,4 +1,4 @@
-from experiment.utils.exceptions import SeebeckValueRangeError
+from experiment.application.utils.exceptions import SeebeckValueRangeError
 
 
 def calculate_seebeck_coefficient(delta_voltage: float, delta_temperature: float) -> float:

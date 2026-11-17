@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from experiment.service.experiment_service import ExperimentService
+from experiment.application.experiment_service import ExperimentService
 
 
 @dataclass(frozen=True)

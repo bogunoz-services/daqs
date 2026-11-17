@@ -4,11 +4,11 @@ from datetime import datetime, timezone
 
 from daq6510.composite_source import CompositeMeasurementSource
 from daq6510.transport.exceptions import InstrumentError
-from experiment.core.ports import MeasurementSink, MeasurementRecord, Sample
-from experiment.core.state import SharedExperimentData, ExperimentState
-from experiment.methods.kalman import ScalarKalmanFilter
-from experiment.methods.seebeck import calculate_seebeck_coefficient
-from experiment.methods.stability import StabilityDetector
+from experiment.domain.models import Sample, MeasurementSink, MeasurementRecord
+from experiment.domain.state import SharedExperimentData, ExperimentState
+from experiment.domain.methods.kalman import ScalarKalmanFilter
+from experiment.domain.methods.seebeck import calculate_seebeck_coefficient
+from experiment.domain.methods.stability import StabilityDetector
 
 
 class Orchestrator:
@@ -18,6 +18,7 @@ class Orchestrator:
         device_hash: str,
         process_variance: float,
         measurement_variance: float,
+        measurement_sink: MeasurementSink,
         record_interval_seconds: float = 10.0,
         poll_interval_seconds: float = 1.0,
         max_consecutive_errors: int = 5,
@@ -42,6 +43,8 @@ class Orchestrator:
         self._device_hash = device_hash
         self._record_interval = record_interval_seconds
         self._last_recorded: float | None = None
+
+        self._sink = measurement_sink
 
     def start(self) -> None:
         self._source.setup()
@@ -123,14 +126,15 @@ class Orchestrator:
             and now - self._last_recorded < self._record_interval
         ):
             return
-        self._last_recorded = now
 
-        #self._sink.write(
-        #    MeasurementRecord(
-        #        device_hash=self._device_hash,
-        #        time=datetime.now(timezone.utc),
-        #        t1=sample.t1,
-        #        t2=sample.t2,
-        #        voltage=sample.voltage,
-        #    )
-        #)
+        record = MeasurementRecord(
+            device_hash=self._device_hash,
+            time=datetime.now(timezone.utc),
+            t1=sample.t1,
+            t2=sample.t2,
+            voltage=sample.voltage,
+        )
+
+        self._sink.write(record)
+
+        self._last_recorded = now

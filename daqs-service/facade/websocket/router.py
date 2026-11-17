@@ -1,6 +1,6 @@
 from typing import Callable, Awaitable, Any
 
-from experiment.service.exceptions import ServiceError
+from experiment.application.exceptions import ServiceError
 from facade.websocket.protocol import Response, Request, UnknownActionError, ProtocolError
 
 Handler = Callable[[dict], Awaitable[Any]]
