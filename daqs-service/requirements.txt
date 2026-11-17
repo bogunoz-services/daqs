@@ -28,3 +28,4 @@ SQLAlchemy~=2.0.54
 websockets~=15.0.1
 python-dotenv~=1.2.4
 pyserial>=3.5
+httpx>=1.0.9

@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import select, func, and_, false
 
-from domain.models.measurement import Measurement, DeviceL
+from domain.models.measurement import Measurement
 from domain.ports.measurement_repository import MeasurementRepository
 from infrastructure.models.measurement import MeasurementORM
 from utils.hasher import Hasher

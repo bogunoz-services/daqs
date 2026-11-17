@@ -25,12 +25,9 @@ def get_device(
             name=device.name,
             logo=device.logo,
             resource_address=device.resource_address,
-            thermocouple_1_slot=device.thermocouple_1_slot,
-            thermocouple_1_channel=device.thermocouple_1_channel,
-            thermocouple_2_slot=device.thermocouple_2_slot,
-            thermocouple_2_channel=device.thermocouple_2_channel,
             voltage_slot=device.voltage_slot,
             voltage_channel=device.voltage_channel,
+            port=device.port,
         )
     except Exception as e:
         raise GetDeviceError(e)
@@ -51,12 +48,9 @@ def get_devices(
                 name=device.name,
                 logo=device.logo,
                 resource_address=device.resource_address,
-                thermocouple_1_slot=device.thermocouple_1_slot,
-                thermocouple_1_channel=device.thermocouple_1_channel,
-                thermocouple_2_slot=device.thermocouple_2_slot,
-                thermocouple_2_channel=device.thermocouple_2_channel,
                 voltage_slot=device.voltage_slot,
                 voltage_channel=device.voltage_channel,
+                port=device.port,
             ))
         return result
     except Exception as e:
@@ -74,12 +68,9 @@ def create_device(
             name=payload.name,
             logo=payload.logo,
             resource_address=payload.resource_address,
-            thermocouple_1_slot=payload.thermocouple_1_slot,
-            thermocouple_1_channel=payload.thermocouple_1_channel,
-            thermocouple_2_slot=payload.thermocouple_2_slot,
-            thermocouple_2_channel=payload.thermocouple_2_channel,
             voltage_slot=payload.voltage_slot,
             voltage_channel=payload.voltage_channel,
+            port=payload.port,
         )
         device_service.add_new_device(device)
     except Exception as e:
@@ -100,12 +91,9 @@ def update_device(
             name=payload.name,
             logo=payload.logo,
             resource_address=payload.resource_address,
-            thermocouple_1_slot=payload.thermocouple_1_slot,
-            thermocouple_1_channel=payload.thermocouple_1_channel,
-            thermocouple_2_slot=payload.thermocouple_2_slot,
-            thermocouple_2_channel=payload.thermocouple_2_channel,
             voltage_slot=payload.voltage_slot,
             voltage_channel=payload.voltage_channel,
+            port=payload.port,
         )
         device_service.update_device(device)
     except Exception as e:
