@@ -10,3 +10,6 @@ class ChannelReadingsError(CommandError):
 
 class TcTypeValueError(CommandError):
     pass
+
+class TemperatureParseError(ValueError):
+    pass

@@ -27,3 +27,4 @@ packaging~=26.3
 SQLAlchemy~=2.0.54
 websockets~=15.0.1
 python-dotenv~=1.2.4
+pyserial>=3.5

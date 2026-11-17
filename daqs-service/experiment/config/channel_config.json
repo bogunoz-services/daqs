@@ -1,12 +1,4 @@
 {
-  "thermocouple_1": {
-    "slot": "1",
-    "channel": "103"
-  },
-  "thermocouple_2": {
-    "slot": "1",
-    "channel": "102"
-  },
   "voltage_probe": {
     "slot": "2",
     "channel": "101"
