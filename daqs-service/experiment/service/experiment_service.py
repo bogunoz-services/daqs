@@ -4,7 +4,7 @@ from typing import Callable
 from daq6510.transport.exceptions import InstrumentError
 from experiment.core.orchestrator import Orchestrator
 from experiment.core.state import SharedExperimentData
-from experiment.service.exceptions import InstrumentUnavailableError, InvalidConfigError
+from experiment.service.exceptions import InstrumentUnavailableError, InvalidConfigError, ExperimentRunningError
 from experiment.service.ports import ConfigStore
 
 

@@ -18,7 +18,6 @@ class Orchestrator:
         device_hash: str,
         process_variance: float,
         measurement_variance: float,
-        sink: MeasurementSink,
         record_interval_seconds: float = 10.0,
         poll_interval_seconds: float = 1.0,
         max_consecutive_errors: int = 5,
@@ -41,7 +40,6 @@ class Orchestrator:
         self._consecutive_errors = 0
 
         self._device_hash = device_hash
-        self._sink = sink
         self._record_interval = record_interval_seconds
         self._last_recorded: float | None = None
 
@@ -127,12 +125,12 @@ class Orchestrator:
             return
         self._last_recorded = now
 
-        self._sink.write(
-            MeasurementRecord(
-                device_hash=self._device_hash,
-                time=datetime.now(timezone.utc),
-                t1=sample.t1,
-                t2=sample.t2,
-                voltage=sample.voltage,
-            )
-        )
+        #self._sink.write(
+        #    MeasurementRecord(
+        #        device_hash=self._device_hash,
+        #        time=datetime.now(timezone.utc),
+        #        t1=sample.t1,
+        #        t2=sample.t2,
+        #        voltage=sample.voltage,
+        #    )
+        #)

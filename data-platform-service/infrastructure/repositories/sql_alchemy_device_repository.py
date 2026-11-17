@@ -13,12 +13,9 @@ def _to_domain(orm: DeviceORM) -> Device:
         name=orm.name,
         logo=orm.logo,
         resource_address=orm.resource_address,
-        thermocouple_1_slot=orm.thermocouple_1_slot,
-        thermocouple_1_channel=orm.thermocouple_1_channel,
-        thermocouple_2_slot=orm.thermocouple_2_channel,
-        thermocouple_2_channel=orm.thermocouple_2_channel,
         voltage_slot=orm.voltage_slot,
         voltage_channel=orm.voltage_channel,
+        port=orm.port,
     )
 
 def _to_orm(model: Device) -> DeviceORM:
@@ -27,12 +24,9 @@ def _to_orm(model: Device) -> DeviceORM:
         name=model.name,
         logo=model.logo,
         resource_address=model.resource_address,
-        thermocouple_1_slot=model.thermocouple_1_slot,
-        thermocouple_1_channel=model.thermocouple_1_channel,
-        thermocouple_2_slot=model.thermocouple_2_slot,
-        thermocouple_2_channel=model.thermocouple_2_channel,
         voltage_slot=model.voltage_slot,
         voltage_channel=model.voltage_channel,
+        port=model.port,
     )
 
 class SqlAlchemyDeviceRepository(DeviceRepository):
@@ -72,12 +66,9 @@ class SqlAlchemyDeviceRepository(DeviceRepository):
         orm_n.name = device.name
         orm_n.logo = device.logo
         orm_n.resource_address = device.resource_address
-        orm_n.thermocouple_1_slot = device.thermocouple_1_slot
-        orm_n.thermocouple_1_channel = device.thermocouple_1_channel
-        orm_n.thermocouple_2_slot = device.thermocouple_2_slot
-        orm_n.thermocouple_2_channel = device.thermocouple_2_channel
         orm_n.voltage_slot = device.voltage_slot
         orm_n.voltage_channel = device.voltage_channel
+        port = device.port
 
         self._session.commit()
 

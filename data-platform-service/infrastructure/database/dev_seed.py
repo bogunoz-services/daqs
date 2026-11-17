@@ -4,7 +4,7 @@ from datetime import datetime, timedelta, timezone
 
 from sqlalchemy import func, select
 
-from infrastructure.database.connection import SessionFactory
+from infrastructure.database.connection import SessionLocal
 from infrastructure.models.device import DeviceORM
 from infrastructure.models.measurement import MeasurementORM
 
@@ -16,9 +16,8 @@ SEEBECK_V_PER_K = 180e-6
 def _device(name: str, logo: str, address: str, base: int) -> DeviceORM:
     return DeviceORM(
         name=name, logo=logo, resource_address=address,
-        thermocouple_1_slot="1", thermocouple_1_channel=str(base + 1),
-        thermocouple_2_slot="1", thermocouple_2_channel=str(base + 2),
         voltage_slot="2", voltage_channel=str(base + 1),
+        port="/dev/ttyACM0",
     )
 
 
@@ -28,7 +27,7 @@ def seed_dev_data() -> None:
 
     rng = random.Random(42)      # stałe ziarno: te same dane przy każdym zasilaniu
 
-    with SessionFactory.begin() as session:
+    with SessionLocal.begin() as session:
         if session.scalar(select(func.count()).select_from(DeviceORM)):
             return                # baza ma już dane, nie dubluj
 
