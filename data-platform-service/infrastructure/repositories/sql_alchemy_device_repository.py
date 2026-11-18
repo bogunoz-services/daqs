@@ -34,7 +34,8 @@ class SqlAlchemyDeviceRepository(DeviceRepository):
         self._session = session
 
     def get_by_id(self, device_id: int) -> Optional[Device]:
-        orm = self._session.get(DeviceORM, id)
+        orm = self._session.get(DeviceORM, device_id)
+        print(orm)
         if not orm:
             return None
         return _to_domain(orm)

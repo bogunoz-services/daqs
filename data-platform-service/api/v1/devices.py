@@ -12,27 +12,6 @@ from utils.hasher import Hasher
 
 router = APIRouter(prefix="/api/v1/devices", tags=["device"])
 
-@router.get("/{device_hash}", response_model=DeviceResponse)
-def get_device(
-    device_hash: str,
-    device_service: DeviceService = Depends(get_device_service),
-    hasher: Hasher = Depends(get_hasher),
-) -> DeviceResponse:
-    try:
-        device = device_service.get_device(hasher.decode(device_hash))
-        return DeviceResponse(
-            hash=hasher.encode(device.id),
-            name=device.name,
-            logo=device.logo,
-            resource_address=device.resource_address,
-            voltage_slot=device.voltage_slot,
-            voltage_channel=device.voltage_channel,
-            port=device.port,
-        )
-    except Exception as e:
-        raise GetDeviceError(e)
-
-
 @router.get("/get-all", response_model=List[DeviceResponse])
 def get_devices(
     device_service: DeviceService = Depends(get_device_service),
@@ -53,6 +32,27 @@ def get_devices(
                 port=device.port,
             ))
         return result
+    except Exception as e:
+        raise GetDeviceError(e)
+
+
+@router.get("/{device_hash}", response_model=DeviceResponse)
+def get_device(
+    device_hash: str,
+    device_service: DeviceService = Depends(get_device_service),
+    hasher: Hasher = Depends(get_hasher),
+) -> DeviceResponse:
+    try:
+        device = device_service.get_device(hasher.decode(device_hash))
+        return DeviceResponse(
+            hash=hasher.encode(device.id),
+            name=device.name,
+            logo=device.logo,
+            resource_address=device.resource_address,
+            voltage_slot=device.voltage_slot,
+            voltage_channel=device.voltage_channel,
+            port=device.port,
+        )
     except Exception as e:
         raise GetDeviceError(e)
 

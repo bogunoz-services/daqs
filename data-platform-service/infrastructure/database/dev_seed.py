@@ -22,34 +22,60 @@ def _device(name: str, logo: str, address: str, base: int) -> DeviceORM:
 
 
 def seed_dev_data() -> None:
+    print("SEED: START", flush=True)
+
     if os.getenv("SEED_DEV_DATA") != "1":
+        print("Seed not required")
         return
 
-    rng = random.Random(42)      # stałe ziarno: te same dane przy każdym zasilaniu
+    rng = random.Random(42)
 
     with SessionLocal.begin() as session:
-        if session.scalar(select(func.count()).select_from(DeviceORM)):
-            return                # baza ma już dane, nie dubluj
+        count = session.scalar(
+            select(func.count()).select_from(DeviceORM)
+        )
+
+        print(f"SEED: existing devices = {count}", flush=True)
+
+        if count:
+            print("SEED: SKIPPED", flush=True)
+            return
 
         devices = [
             _device("DAQ6510-A", "cpu", "TCPIP0::192.168.1.10::inst0::INSTR", 100),
             _device("DAQ6510-B", "gauge", "TCPIP0::192.168.1.11::inst0::INSTR", 200),
             _device("Modbus-Gateway-01", "router", "TCPIP0::192.168.1.12::inst0::INSTR", 300),
         ]
+
         session.add_all(devices)
-        session.flush()           # nadaje id urządzeniom
+        session.flush()
+
+        print(f"SEED: created devices = {len(devices)}", flush=True)
 
         now = datetime.now(timezone.utc)
         rows = []
+
         for device in devices:
             t1, t2 = rng.uniform(30, 40), rng.uniform(22, 28)
+
             for i in range(POINTS_PER_DEVICE):
                 t1 += rng.gauss(0, 0.15)
                 t2 += rng.gauss(0, 0.10)
+
                 voltage = (t1 - t2) * SEEBECK_V_PER_K + rng.gauss(0, 2e-6)
-                rows.append(MeasurementORM(
-                    device_id=device.id,
-                    time=now - STEP * (POINTS_PER_DEVICE - i),
-                    t1=t1, t2=t2, voltage=voltage,
-                ))
+
+                rows.append(
+                    MeasurementORM(
+                        device_id=device.id,
+                        time=now - STEP * (POINTS_PER_DEVICE - i),
+                        t1=t1,
+                        t2=t2,
+                        voltage=voltage,
+                    )
+                )
+
+        print(f"SEED: measurements prepared = {len(rows)}", flush=True)
+
         session.add_all(rows)
+
+    print("SEED: COMMIT COMPLETED", flush=True)

@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends
 
 from api.deps import get_measurement_service, get_hasher, get_device_service
 from api.exceptions.measurement_exceptions import RecordMeasurementError, ListMeasurementError
+from api.schemas.measurement.list_measurement_request import ListMeasurementsRequest
 from api.schemas.measurement.list_measurements_response import MeasurementListItem, DeviceInfo, ListMeasurementsResponse
 from api.schemas.measurement.record_measurement_request import RecordMeasurementRequest
 from domain.models.measurement import Measurement
@@ -33,9 +34,9 @@ def record_measurement(
 
     return {"ok": True}
 
-@router.get("/list-measurements", response_model=ListMeasurementsResponse)
+@router.post("/list-measurements", response_model=ListMeasurementsResponse)
 def list_measurements(
-    payload: RecordMeasurementRequest,
+    payload: ListMeasurementsRequest,
     measurement_service: MeasurementService = Depends(get_measurement_service),
     device_service: DeviceService = Depends(get_device_service),
     hasher: Hasher = Depends(get_hasher),
@@ -74,3 +75,4 @@ def list_measurements(
         )
     except Exception as e:
         raise ListMeasurementError(e)
+
