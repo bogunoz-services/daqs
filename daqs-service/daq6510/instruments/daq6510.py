@@ -1,7 +1,5 @@
-# daq6510/daq6510.py
 from daq6510.scpi.commands import ScpiCommands
-from daq6510.scpi.parser import parse_idn, parse_channel_readings, parse_temperature_line
-from daq6510.transport.serial_connection import SerialConnection
+from daq6510.scpi.parser import parse_idn, parse_channel_readings
 from daq6510.transport.visa_connection import VisaConnection
 
 
